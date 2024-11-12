@@ -1,13 +1,105 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
+/* Benachrichtigungen */
+.notification {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 16px;
+    animation: fadeOut 2s forwards;
+  }
+  
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  
+  /* Eingabefeld und Button */
+  .input-group {
+    display: flex; /* Stellt sicher, dass Eingabefeld und Button nebeneinander liegen */
+    align-items: center; /* Vertikale Ausrichtung */
+    gap: 10px; /* Abstand zwischen Eingabefeld und Button */
+  }
+  
+  .todo-input {
+    flex: 1; /* Eingabefeld nimmt den gesamten verfügbaren Platz ein */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    height: 40px; /* Stellt sicher, dass das Eingabefeld gleich hoch ist wie der Button */
+  }
+  
+  .add-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    margin-top: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    height: 40px; /* Gleiche Höhe wie das Eingabefeld */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .add-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Aufgabenliste */
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .completed-task {
+    text-decoration: line-through;
+    color: #888;
+  }
+  
+  li button {
+    background-color: transparent;
+    border: none;
+    color: #d63031;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+  
+  li button:hover {
+    color: #e17055;
+  }
+  
+  /* Löschen aller Aufgaben */
+  .delete-all-btn {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #d63031;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .delete-all-btn:hover {
+    background-color: #e17055;
+  }
+  
