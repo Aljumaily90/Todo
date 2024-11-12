@@ -1,56 +1,181 @@
-import React, { useState } from "react"; 
-// Importiert React und den Hook useState, um Zustände in der Komponente zu verwalten.
-import MyCalendar from "./Calendar"; 
-// Importiert die MyCalendar-Komponente aus der Datei Calendar.js.
-import TodoList from "./TodoList"; 
-// Importiert die TodoList-Komponente aus der Datei TodoList.js.
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, NavLink, Navigate } from "react-router-dom";
+import MyCalendar from "./Komponenten/Calendar";
+import TodoList from "./Komponenten/TodoList";
+import AllTasks from "./Komponenten/AllTasks";
+import ToDoTasks from "./Komponenten/ToDoTasks";
+import DoneTasks from "./Komponenten/DoneTasks";
+
 function App() {
-  const [selectedDate, setSelectedDate] = useState(null); 
-  // Verwaltet den Zustand für das aktuell ausgewählte Datum (initial: null).
+  const [todosByDate, setTodosByDate] = useState({}); // Zustand für alle To-Dos
+  const [selectedDate, setSelectedDate] = useState(null); // Zustand für das ausgewählte Datum
 
-  const [todosByDate, setTodosByDate] = useState({}); 
-  // Verwaltet alle To-Dos nach Datum, gespeichert als ein Objekt (z.B. { "2024-11-12": [...] }).
-
+  // Funktion zum Aktualisieren der Aufgaben für ein bestimmtes Datum
   const updateTodosForDate = (date, newTodos) => {
-    // Funktion, um die To-Dos für ein bestimmtes Datum zu aktualisieren.
     setTodosByDate((prevTodos) => ({
-      // Kopiert das vorherige Objekt (prevTodos), um den Zustand nicht direkt zu verändern.
-      ...prevTodos, 
-      [date]: newTodos, 
-      // Überschreibt oder fügt die To-Dos für das gegebene Datum hinzu.
+      ...prevTodos,
+      [date]: newTodos,
     }));
   };
 
+  // Funktion zum Abrufen aller Aufgaben
+  const getAllTodos = () => {
+    const allTodos = [];
+    Object.entries(todosByDate).forEach(([date, todos]) => {
+      if (Array.isArray(todos)) {
+        todos.forEach((todo) => {
+          allTodos.push({ ...todo, date });
+        });
+      }
+    });
+    return allTodos;
+  };
+
+  // Einzelne Aufgabe löschen
+  const deleteSingleTodo = (date, index) => {
+    setTodosByDate((prevTodos) => {
+      const updatedTodos = [...(prevTodos[date] || [])]; // Kopiere die Aufgaben des Datums
+      updatedTodos.splice(index, 1); // Entferne die Aufgabe an der gewünschten Position
+      return {
+        ...prevTodos,
+        [date]: updatedTodos,
+      };
+    });
+  };
+
+  // Alle Aufgaben für ein bestimmtes Datum löschen
+  const deleteAllTodosForDate = (date) => {
+    if (window.confirm("Möchtest du wirklich alle Aufgaben für dieses Datum löschen?")) {
+      setTodosByDate((prevTodos) => ({
+        ...prevTodos,
+        [date]: [],
+      }));
+    }
+  };
+
+  // Alle Aufgaben (global) löschen
+  const deleteAllTodos = () => {
+    if (window.confirm("Möchtest du wirklich alle Aufgaben löschen?")) {
+      setTodosByDate({});
+    }
+  };
+
   return (
-    <div className="container">
-      {/* Der Hauptcontainer der App */}
+    <Router>
+      <div>
+        {/* Horizontale Navigation */}
+        <nav className="sidebar">
+          <NavLink
+            to="/"
+            className={({ isActive }) => (isActive ? "tab active-tab" : "tab")}
+          >
+            Startseite
+          </NavLink>
+          <NavLink
+            to="/all"
+            className={({ isActive }) => (isActive ? "tab active-tab" : "tab")}
+          >
+            Alle Aufgaben
+          </NavLink>
+          <NavLink
+            to="/todo"
+            className={({ isActive }) => (isActive ? "tab active-tab" : "tab")}
+          >
+            Zu erledigen
+          </NavLink>
+          <NavLink
+            to="/done"
+            className={({ isActive }) => (isActive ? "tab active-tab" : "tab")}
+          >
+            Erledigt
+          </NavLink>
+        </nav>
 
-      {/* Kalender-Komponente */}
-      <MyCalendar onDateChange={setSelectedDate} />
-      {/* Übergibt die setSelectedDate-Funktion als Prop, um das ausgewählte Datum zu setzen */}
+        {/* Hauptinhalt */}
+        <div className="container">
+          <Routes>
+            {/* Startseite */}
+            <Route
+              path="/"
+              element={
+                <div className="calendar-container">
+                  <MyCalendar onDateChange={(date) => setSelectedDate(date.toDateString())} />
+                  {selectedDate ? (
+                    <TodoList
+                      selectedDate={selectedDate}
+                      todos={todosByDate[selectedDate] || []}
+                      updateTodos={(newTodos) =>
+                        updateTodosForDate(selectedDate, newTodos)
+                      }
+                      deleteSingleTodo={(index) => deleteSingleTodo(selectedDate, index)}
+                      deleteAllTodos={() => deleteAllTodosForDate(selectedDate)}
+                    />
+                  ) : (
+                    <p>Bitte wähle ein Datum aus, um die Aufgaben anzuzeigen.</p>
+                  )}
+                </div>
+              }
+            />
 
-      <div className="card">
-        {/* Container für die To-Do-Liste */}
-        {selectedDate ? (
-          // Überprüft, ob ein Datum ausgewählt wurde.
-          <TodoList
-            selectedDate={selectedDate}
-            // Übergibt das aktuell ausgewählte Datum als Prop.
-            todos={todosByDate[selectedDate.toDateString()] || []}
-            // Übergibt die To-Dos für das ausgewählte Datum oder ein leeres Array, falls keine vorhanden sind.
-            updateTodos={(newTodos) =>
-              updateTodosForDate(selectedDate.toDateString(), newTodos)
-            }
-            // Übergibt eine Funktion als Prop, um die To-Dos für das ausgewählte Datum zu aktualisieren.
-          />
-        ) : (
-          <p>Bitte wähle ein Datum aus, um die To-Do-Liste anzuzeigen.</p>
-          // Zeigt diese Nachricht an, wenn kein Datum ausgewählt wurde.
-        )}
+            {/* Alle Aufgaben */}
+            <Route
+              path="/all"
+              element={
+                <AllTasks
+                  todos={getAllTodos()}
+                  updateTodos={(updatedTodos) =>
+                    setTodosByDate((prevTodos) => {
+                      const updatedTodosByDate = { ...prevTodos };
+                      updatedTodos.forEach((todo) => {
+                        const dateTodos = updatedTodosByDate[todo.date] || [];
+                        const todoIndex = dateTodos.findIndex(
+                          (t) => t.text === todo.text
+                        );
+                        if (todoIndex !== -1) {
+                          dateTodos[todoIndex] = { ...todo };
+                        }
+                        updatedTodosByDate[todo.date] = dateTodos;
+                      });
+                      return updatedTodosByDate;
+                    })
+                  }
+                  deleteSingleTodo={(date, index) => deleteSingleTodo(date, index)}
+                  deleteAllTodos={deleteAllTodos}
+                />
+              }
+            />
+
+            {/* Zu erledigen */}
+            <Route
+              path="/todo"
+              element={
+                <ToDoTasks
+                  todos={getAllTodos().filter((todo) => !todo.completed)}
+                  deleteSingleTodo={(date, index) => deleteSingleTodo(date, index)}
+                  deleteAllTodos={deleteAllTodos}
+                />
+              }
+            />
+
+            {/* Erledigt */}
+            <Route
+              path="/done"
+              element={
+                <DoneTasks
+                  todos={getAllTodos().filter((todo) => todo.completed)}
+                  deleteSingleTodo={(date, index) => deleteSingleTodo(date, index)}
+                  deleteAllTodos={deleteAllTodos}
+                />
+              }
+            />
+
+            {/* Fallback */}
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </Router>
   );
 }
 
-export default App; 
-// Exportiert die App-Komponente, damit sie in anderen Dateien (z.B. index.js) verwendet werden kann.
+export default App;

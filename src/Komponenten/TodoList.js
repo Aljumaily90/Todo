@@ -6,7 +6,10 @@ const TodoList = ({ selectedDate, todos, updateTodos }) => {
 
   // Aufgabe hinzufügen
   const addTodo = () => {
-    if (newTodo.trim() === "") return;
+    if (newTodo.trim() === "") {
+      showNotification("Bitte eine gültige Aufgabe eingeben! ⚠️");
+      return;
+    }
     updateTodos([...todos, { text: newTodo, completed: false }]);
     setNewTodo("");
     showNotification("Aufgabe hinzugefügt! 🎉");
@@ -54,12 +57,21 @@ const TodoList = ({ selectedDate, todos, updateTodos }) => {
 
   return (
     <div>
+      
+
       {/* Liste der Aufgaben */}
       <ul>
         {todos.map((todo, index) => (
           <li key={index} className={todo.completed ? "completed-task" : ""}>
-            <span onClick={() => toggleComplete(index)}>{todo.text}</span>
-            <button onClick={() => deleteTodo(index)}>🗑️</button>
+            <span
+              onClick={() => toggleComplete(index)}
+              style={{ cursor: "pointer" }}
+            >
+              {todo.text}
+            </span>
+            <button onClick={() => deleteTodo(index)} className="delete-btn">
+              🗑️
+            </button>
           </li>
         ))}
       </ul>
@@ -67,7 +79,7 @@ const TodoList = ({ selectedDate, todos, updateTodos }) => {
       {/* Benachrichtigung */}
       {notification && <div className="notification">{notification}</div>}
 
-      {/* Eingabefeld und Button in einer Zeile */}
+      {/* Eingabefeld und Button */}
       <div className="input-group">
         <input
           type="text"
@@ -90,6 +102,5 @@ const TodoList = ({ selectedDate, todos, updateTodos }) => {
     </div>
   );
 };
-
 
 export default TodoList;

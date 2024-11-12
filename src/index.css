@@ -1,105 +1,146 @@
 /* Benachrichtigungen */
 .notification {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px;
-    margin: 10px 0;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 16px;
-    animation: fadeOut 2s forwards;
-  }
-  
-  @keyframes fadeOut {
-    0% {
-      opacity: 1;
-    }
-    100% {
-      opacity: 0;
-    }
-  }
-  
-  /* Eingabefeld und Button */
-  .input-group {
-    display: flex; /* Stellt sicher, dass Eingabefeld und Button nebeneinander liegen */
-    align-items: center; /* Vertikale Ausrichtung */
-    gap: 10px; /* Abstand zwischen Eingabefeld und Button */
-  }
-  
-  .todo-input {
-    flex: 1; /* Eingabefeld nimmt den gesamten verfügbaren Platz ein */
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-    height: 40px; /* Stellt sicher, dass das Eingabefeld gleich hoch ist wie der Button */
-  }
-  
-  .add-btn {
-    background-color: #007bff;
-    color: white;
-    border: none;
-    margin-top: 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    height: 40px; /* Gleiche Höhe wie das Eingabefeld */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .add-btn:hover {
-    background-color: #0056b3;
-  }
-  
-  /* Aufgabenliste */
-  ul {
-    list-style-type: none;
-    padding: 0;
-  }
-  
-  li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin: 5px 0;
-    padding: 10px;
-    background-color: #f8f9fa;
-    border-radius: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  .completed-task {
-    text-decoration: line-through;
-    color: #888;
-  }
-  
-  li button {
-    background-color: transparent;
-    border: none;
-    color: #d63031;
-    font-size: 1.2rem;
-    cursor: pointer;
-  }
-  
-  li button:hover {
-    color: #e17055;
-  }
-  
-  /* Löschen aller Aufgaben */
-  .delete-all-btn {
-    margin-top: 10px;
-    padding: 10px;
-    background-color: #d63031;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .delete-all-btn:hover {
-    background-color: #e17055;
-  }
-  
+  background-color: #38bdf8; /* Helles Blau */
+  color: white;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: fadeOut 2s forwards;
+}
+
+/* Eingabefeld und Button */
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+  max-width: 100%;
+}
+
+.todo-input {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  height: 45px;
+  max-width: 400px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.add-btn {
+  background-color: #2563eb; /* Sattes Blau */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  font-size: 16px;
+}
+
+.add-btn:hover {
+  background-color: #1d4ed8;
+}
+
+/* Aufgabenliste */
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 20px 0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0;
+  padding: 12px;
+  background-color: #f3f4f6; /* Hellgrau */
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+li:hover {
+  background-color: #e5e7eb;
+}
+
+.completed-task {
+  text-decoration: line-through;
+  color: #6b7280; /* Grau */
+}
+
+li span {
+  flex: 1; /* Der Text nimmt den gesamten verfügbaren Platz ein */
+}
+
+li button {
+  background-color: transparent;
+  border: none;
+  color: #ef4444; /* Rot */
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin-left: 10px; /* Abstand zwischen dem Text und dem Button */
+}
+
+li button:hover {
+  color: #dc2626;
+}
+
+/* Löschen aller Aufgaben */
+.delete-all-btn {
+  margin-top: 20px;
+  padding: 12px;
+  background-color: #ef4444; /* Rot */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+  max-width: 300px;
+}
+
+.delete-all-btn:hover {
+  background-color: #dc2626;
+}
+
+/* Navigation */
+.sidebar nav {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #d1d5db;
+  padding: 10px 0;
+  width: 100%;
+}
+
+.tab {
+  text-decoration: none;
+  color: #374151; /* Dunkelgrau */
+  font-size: 16px;
+  padding: 8px 15px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.tab:hover {
+  background-color: #f3f4f6;
+}
+
+.tab.active-tab {
+  background-color: #2563eb;
+  color: white;
+}
